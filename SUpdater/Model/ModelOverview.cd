@@ -48,6 +48,7 @@
     <Position X="6" Y="3.75" Width="2" />
     <Members>
       <Field Name="_data" Hidden="true" />
+      <Field Name="_image" Hidden="true" />
       <Field Name="_loaded" Hidden="true" />
       <Field Name="_requested" Hidden="true" />
     </Members>
@@ -57,7 +58,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>EAAAAAAARAEACgAAAAAAAAEAAAAAAFAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAAAAAAARAEACgAAQAAAAAEAAAAAQFAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Value.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -68,8 +69,7 @@
   <Class Name="SUpdater.Model.Entity">
     <Position X="0.5" Y="4" Width="2.5" />
     <Members>
-      <Field Name="_addEntityMutex" Hidden="true" />
-      <Field Name="_addValueMutex" Hidden="true" />
+      <Field Name="_dispatcher" Hidden="true" />
       <Field Name="_entities" Hidden="true" />
       <Field Name="_isNew" Hidden="true" />
       <Field Name="_values" Hidden="true" />
@@ -81,16 +81,16 @@
     </AssociationLine>
     <AssociationLine Name="Values" Type="SUpdater.Model.Value">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.274" Y="0.085" Height="0.182" Width="2.294" />
+        <Position X="0.066" Y="0.054" Height="0.182" Width="2.804" />
       </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="Entities" Type="SUpdater.Model.Entity">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.038" Y="0.455" />
+        <Position X="-1.389" Y="0.455" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAIAACACAAAQCQAEAAAAAAAAQEiAAEAACA=</HashCode>
+      <HashCode>AAAAAAAAAAAIAQCACAAAQCQAAAAAAAAAAQEiAAEAACA=</HashCode>
       <FileName>Model\Entity.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -106,7 +106,7 @@
     <Position X="9.25" Y="6.75" Width="3" />
     <AssociationLine Name="Values" Type="SUpdater.Model.ValueDefinition">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="-2.044" Y="1.748" Height="0.162" Width="1.901" />
+        <Position X="-2.054" Y="0.8" Height="0.162" Width="1.901" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>

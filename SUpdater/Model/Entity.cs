@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading;
+using System.Windows.Threading;
 using SUpdater.Provider;
 
 namespace SUpdater.Model
@@ -11,10 +13,12 @@ namespace SUpdater.Model
     public class Entity
     {
 
+        private Dispatcher _dispatcher;
         public Entity(String name, EntityType type)
         {
            //used when creating new entities
             _isNew = true;
+            _dispatcher = Dispatcher.CurrentDispatcher;
             Name = name;
             Type = type;
             Values = new ReadOnlyDictionary<String, Value>(_values);
@@ -26,6 +30,7 @@ namespace SUpdater.Model
 
             //used when importing from db
             _isNew = false;
+            _dispatcher = Dispatcher.CurrentDispatcher;
             Values =  new ReadOnlyDictionary<String, Value>(_values);
             Entities = new ReadOnlyObservableCollection<Entity>(_entities);
         }
@@ -103,49 +108,55 @@ namespace SUpdater.Model
 
         private readonly Dictionary<String, Value> _values = new Dictionary<string, Value>();
         public ReadOnlyDictionary<String, Value> Values { get; }
-        private readonly Mutex _addValueMutex = new Mutex();
 
         internal Value AddGetValue(ValueDefinition def, out bool created)
         {
-            _addValueMutex.WaitOne();
-            Value o;
-            if (Values.TryGetValue(def.Name, out o)) //value already existed
-            {
-                created = false;
-                _addValueMutex.ReleaseMutex();
-                return o;
-            }
+            bool c=false;
 
-            //value did not exist
-            var val = new Value(def, this);
-            _values.Add(def.Name,val);
-            created = true;
-            _addValueMutex.ReleaseMutex();
+            var val = _dispatcher.Invoke(delegate
+            {
+                Value o;
+                if (Values.TryGetValue(def.Name, out o)) //value already existed
+                {
+                    return o;
+                }
+
+                 //value did not exist
+                c = true;
+                var v = new Value(def, this);
+                _values.Add(def.Name, v);
+                return v;
+            });
+
+            created = c;
             return val;
         }
 
 
         private readonly ObservableCollection<Entity> _entities = new ObservableCollection<Entity>(); 
         public ReadOnlyObservableCollection<Entity> Entities  { get; internal set; }
-        private readonly Mutex _addEntityMutex = new Mutex();
 
         internal Entity AddGetEntity(String name, EntityType type, out bool created)
         {
-            _addEntityMutex.WaitOne();
-            Entity e = Entities.FirstOrDefault(et => et.Name == name);
-            if (e!=null) //entity already existed
-            {
-                created = false;
-                _addEntityMutex.ReleaseMutex();
-                return e;
-            }
+            bool c = false;
 
-            //entity did not exist
-            var ent = new Entity(name,type);
-            ent.Parent = this;
-            _entities.Add(ent);
-            created = true;
-            _addEntityMutex.ReleaseMutex();
+            var ent = _dispatcher.Invoke(delegate
+            {
+                Entity e = Entities.FirstOrDefault(et => et.Name == name);
+                if (e != null) //entity already existed
+                {
+                    return e;
+                }
+
+                //entity did not exist
+                c = true;
+                var en = new Entity(name, type);
+                en.Parent = this;
+                _entities.Add(en);
+                return en;
+            });
+
+            created = c;
             return ent;
         }
 

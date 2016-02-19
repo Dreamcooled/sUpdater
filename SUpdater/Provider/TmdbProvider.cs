@@ -37,16 +37,24 @@ namespace SUpdater.Provider
             _definitions.Add(new ValueDefinition(this, "Id", ValueType.Integer,EntityType.Show, ValueFetchStrategy.OnEntityCreate, ValueUpdateStrategy.Never ));  
             _definitions.Add(new ValueDefinition(this, "Title",ValueType.String, EntityType.Show, ValueFetchStrategy.OnEntityCreate, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Status", ValueType.String, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.String, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Poster", ValueType.Image, EntityType.Show, ValueFetchStrategy.OnValueFetch, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Backdrop", ValueType.Image, EntityType.Show, ValueFetchStrategy.OnValueFetch, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "ProviderHomepage", ValueType.Link, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "PublisherHomepage", ValueType.Link, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
 
+            _definitions.Add(new ValueDefinition(this, "Title", ValueType.String, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.String, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "EpisodeCount", ValueType.Integer, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Poster", ValueType.Image, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
 
-            _definitions.Add(new ValueDefinition(this, "Name", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+       
+            _definitions.Add(new ValueDefinition(this, "Title", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Overview", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Poster", ValueType.Image, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "AirDate", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "Vote", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+
 
 
 
@@ -114,6 +122,7 @@ namespace SUpdater.Provider
                             break;
                         case "Title":
                         case "Status":
+                        case "Overview":
                         case "Poster":
                         case "Backdrop":
                         case "ProviderHomepage":
@@ -122,6 +131,7 @@ namespace SUpdater.Provider
                          
                             var titleVal = getVal("Title", value.Entity);
                             var statusVal = getVal("Status", value.Entity);
+                            var overviewVal = getVal("Overview", value.Entity);
                             var posterVal = getVal("Poster", value.Entity);
                             var backdropVal = getVal("Backdrop", value.Entity);
                             var providerHomepageVal = getVal("ProviderHomepage", value.Entity);
@@ -130,12 +140,13 @@ namespace SUpdater.Provider
 
                             Task.Run(delegate
                             {
-                                int id2 = int.Parse(value.Entity.Values["Id"].Data);
+                                int id2 = int.Parse(value.Entity.Values["Id"].String);
                                 var showinfo = client.GetTvShow(id2, TvShowMethods.Images);
                                 titleVal.SetValue(showinfo.OriginalName);
                                 statusVal.SetValue(showinfo.Status);
-                                posterVal.SetValue( String.IsNullOrWhiteSpace(showinfo.PosterPath)? null: client.GetImageUrl("original", showinfo.PosterPath).AbsoluteUri);
-                                backdropVal.SetValue(String.IsNullOrWhiteSpace(showinfo.BackdropPath) ? null : client.GetImageUrl("original", showinfo.BackdropPath).AbsoluteUri);
+                                overviewVal.SetValue(showinfo.Overview);
+                                posterVal.SetValue( String.IsNullOrWhiteSpace(showinfo.PosterPath)? null: client.GetImageUrl("w600", showinfo.PosterPath).AbsoluteUri);
+                                backdropVal.SetValue(String.IsNullOrWhiteSpace(showinfo.BackdropPath) ? null : client.GetImageUrl("w600", showinfo.BackdropPath).AbsoluteUri);
                                 providerHomepageVal.SetValue("https://www.themoviedb.org/tv/" + id2);
                                 publisherHomepageVal.SetValue((showinfo.Homepage == null ||
                                                                showinfo.Homepage.Trim().Length == 0)
@@ -164,7 +175,7 @@ namespace SUpdater.Provider
                 case EntityType.Show:
                     Task.Run(delegate
                     {
-                        int id2 = int.Parse(parent.Values["Id"].Data);
+                        int id2 = int.Parse(parent.Values["Id"].String);
                         var showinfo = client.GetTvShow(id2);
                         foreach (var tvSeason in showinfo.Seasons)
                         {
@@ -175,10 +186,17 @@ namespace SUpdater.Provider
                             {
                                 seasonEntity.Init();
                             }
+
+                            var titleVal = getVal("Title", seasonEntity);
+                            titleVal.SetValue("Season " + tvSeason.SeasonNumber);
+
+                            var episodeCountVal = getVal("EpisodeCount", seasonEntity);
+                            episodeCountVal.SetValue(tvSeason.EpisodeCount.ToString());
+
                             var posterVal = getVal("Poster",seasonEntity);
                             posterVal.SetValue(String.IsNullOrWhiteSpace(tvSeason.PosterPath)
                                 ? null
-                                : client.GetImageUrl("original", tvSeason.PosterPath).AbsoluteUri);
+                                : client.GetImageUrl("w600", tvSeason.PosterPath).AbsoluteUri);
                             
                         }
                     });
@@ -188,10 +206,14 @@ namespace SUpdater.Provider
                 case EntityType.Season:
                     Task.Run(delegate
                     {
-                        int showId = int.Parse(parent.Parent.Values["Id"].Data);
+                        int showId = int.Parse(parent.Parent.Values["Id"].String);
                         int seasonNr = int.Parse(parent.Name);
 
                         var seasonInfo = client.GetTvSeason(showId, seasonNr,TvSeasonMethods.Images);
+
+                        var sOverviewVal = getVal("Overview", parent);
+                        sOverviewVal.SetValue(seasonInfo.Overview);
+
                         foreach (var tvEpisode in seasonInfo.Episodes)
                         {
                             bool created;
@@ -201,14 +223,20 @@ namespace SUpdater.Provider
                             {
                                 episodeEntity.Init();
                             }
-                            var nameVal = getVal("Name", episodeEntity);
-                            nameVal.SetValue(tvEpisode.Name);
+                            var titleVal = getVal("Title", episodeEntity);
+                            titleVal.SetValue(tvEpisode.Name);
                             var overviewVal = getVal("Overview", episodeEntity);
                             overviewVal.SetValue(tvEpisode.Overview);
+                            var airdateVal = getVal("AirDate", episodeEntity);
+                            airdateVal.SetValue(tvEpisode.AirDate.ToShortDateString());
+                            var voteVal = getVal("Vote", episodeEntity);
+                            voteVal.SetValue(tvEpisode.VoteAverage.ToString());
+
+
                             var posterVal = getVal("Poster", episodeEntity);
                             posterVal.SetValue(String.IsNullOrWhiteSpace(tvEpisode.StillPath)
                                 ? null
-                                : client.GetImageUrl("original", tvEpisode.StillPath).AbsoluteUri);
+                                : client.GetImageUrl("w600", tvEpisode.StillPath).AbsoluteUri);
                         }
                       
                     });

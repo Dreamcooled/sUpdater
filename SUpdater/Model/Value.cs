@@ -1,4 +1,5 @@
 ﻿using System;
+using SUpdater.Utils;
 
 namespace SUpdater.Model
 {
@@ -24,7 +25,7 @@ namespace SUpdater.Model
         private bool _requested;
         private bool _loaded;
 
-        public String Data
+        public String String
         {
             get
             {
@@ -52,6 +53,26 @@ namespace SUpdater.Model
                 _data = value;
                 Loaded = true;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Image));
+            }
+        }
+
+        private CachedImage _image;
+        public CachedImage Image
+        {
+            get
+            {
+                if (_image != null)
+                {
+                    return _image;
+                }
+                string d = String;
+                if (string.IsNullOrEmpty(d))
+                {
+                    return null;
+                }
+                _image = new CachedImage(d);
+                return _image;
             }
         }
 
@@ -80,7 +101,7 @@ namespace SUpdater.Model
         public bool SetValue(String data)
         {
             //TODO: check thread
-            Data = data;
+            String = data;
             return true;
         }
     }

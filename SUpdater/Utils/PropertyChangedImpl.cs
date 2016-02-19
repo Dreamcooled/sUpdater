@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
-namespace SUpdater
+namespace SUpdater.Utils
 {
     public abstract class PropertyChangedImpl : INotifyPropertyChanged
     {
