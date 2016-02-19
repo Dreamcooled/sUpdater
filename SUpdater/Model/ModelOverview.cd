@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Comment CommentText="1. A provider (like sj.org) provides a set of ValueDefinitons.  Example: For Entites of EntityType=Show i have a value named &quot;Cover&quot; which is of Type Image.">
+    <Position X="9.452" Y="8.741" Height="0.919" Width="3.401" />
+  </Comment>
+  <Comment CommentText="2. Each ValueDefiniton has some more properties apart from name and type:  E.g can the user edit this property?  When will it first be fetched (when the show is created? or when the gui tries to show the value?) When will it be updated?">
+    <Position X="10.667" Y="0.5" Height="1.122" Width="3.691" />
+  </Comment>
+  <Comment CommentText="3. The values itself are stored on the entities. Values can be created automatically (if not yet in the database) when using the indexer on an entity. Example: when I write show[&quot;cover&quot;] the entity will automatically search all providers for a ValueDefintion with that name, and create a value for me.  The entity will also call RequestValue on the provider, depending on the FetchStrategy. Once the Provider has fetched the data (async) he will simply write the Value member and set Loaded=true">
+    <Position X="5.858" Y="6.478" Height="2.463" Width="2.622" />
+  </Comment>
+  <Comment CommentText="4. Apart from the fact that entites can have Values, entities can also have &quot;subentities&quot;. For a Show the subentities would be of type Season for instance.">
+    <Position X="0.5" Y="7.291" Height="0.812" Width="3.106" />
+  </Comment>
+  <Comment CommentText="5. How are the entites and their subentities initially created? As soon as the user creates a (show) entity, our framework should fetch all values of this entity where the fetchstrategy =OnEntityCreate AND request the subentities using RequestEntities on the provider.">
+    <Position X="9.456" Y="9.73" Height="1.094" Width="3.934" />
+  </Comment>
+  <Class Name="SUpdater.Model.ValueDefinition">
+    <Position X="9.25" Y="2.75" Width="2" />
+    <AssociationLine Name="FetchStrategy" Type="SUpdater.Model.ValueFetchStrategy" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.25" Y="4.542" />
+        <Point X="11.625" Y="4.542" />
+        <Point X="11.625" Y="6.715" />
+        <Point X="13.25" Y="6.715" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="EntityType" Type="SUpdater.Model.EntityType" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.125" Y="2.75" />
+        <Point X="10.125" Y="1.688" />
+        <Point X="3.5" Y="1.688" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAEAAAAAAAAAAQAQAAAAAAAAQACAQAAEAA=</HashCode>
+      <FileName>Model\ValueDefinition.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+      <Property Name="UpdateStrategy" />
+      <Property Name="FetchStrategy" />
+      <Property Name="Provider" />
+      <Property Name="EntityType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SUpdater.Model.Value">
+    <Position X="6" Y="3.75" Width="2" />
+    <Members>
+      <Field Name="_data" Hidden="true" />
+      <Field Name="_loaded" Hidden="true" />
+      <Field Name="_requested" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Entity" Type="SUpdater.Model.Entity">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.314" Y="0.101" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAARAEACgAAAAAAAAEAAAAAAFAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Value.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Definition" />
+      <Property Name="Entity" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SUpdater.Model.Entity">
+    <Position X="0.5" Y="4" Width="2.5" />
+    <Members>
+      <Field Name="_addEntityMutex" Hidden="true" />
+      <Field Name="_addValueMutex" Hidden="true" />
+      <Field Name="_entities" Hidden="true" />
+      <Field Name="_isNew" Hidden="true" />
+      <Field Name="_values" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Type" Type="SUpdater.Model.EntityType">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="0.424" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Values" Type="SUpdater.Model.Value">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.274" Y="0.085" Height="0.182" Width="2.294" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Entities" Type="SUpdater.Model.Entity">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.038" Y="0.455" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAIAACACAAAQCQAEAAAAAAAAQEiAAEAACA=</HashCode>
+      <FileName>Model\Entity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+      <Property Name="this[System.String]" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Values" />
+      <Property Name="Entities" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Interface Name="SUpdater.Provider.IProvider">
+    <Position X="9.25" Y="6.75" Width="3" />
+    <AssociationLine Name="Values" Type="SUpdater.Model.ValueDefinition">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-2.044" Y="1.748" Height="0.162" Width="1.901" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAQAAAEAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Provider\IProvider.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Values" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Enum Name="SUpdater.Model.EntityType">
+    <Position X="2" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQABAQAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Model\EntityType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SUpdater.Model.ValueType">
+    <Position X="13.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAhAACAAAQAAAAAA=</HashCode>
+      <FileName>Model\ValueType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SUpdater.Model.ValueUpdateStrategy">
+    <Position X="13.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAEAAAAAAACAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Model\ValueUpdateStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SUpdater.Model.ValueFetchStrategy">
+    <Position X="13.25" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAAABAAAAAAAAAAAAEAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ValueFetchStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
