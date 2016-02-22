@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SUpdater"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:utils="clr-namespace:SUpdater.Utils"
+        xmlns:controls1="clr-namespace:SUpdater.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800" >
     
@@ -26,6 +27,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <ToggleButton IsChecked="{Binding ElementName=ShowGrid,Path=(controls1:ValueControl.EditMode)}" HorizontalAlignment="Left" Content="EditMode" />
+
 
         <TreeView Grid.Row="1" Grid.Column="0" Grid.IsSharedSizeScope="True" utils:TreeViewExtensions.EnableMultiSelect="true" ItemsSource="{Binding Entities}" x:Name="ShowTreeView">
             <TreeView.ItemContainerStyle>
@@ -203,6 +207,11 @@
                             <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].String}"/>
                         </ScrollViewer>
 
+                        <StackPanel Grid.Row="2">
+                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                        </StackPanel>
+
                     </Grid>
                 </TabItem>
                 <TabItem Header="Season"  x:Name="EpisodeTabControl_Season" DataContext="{x:Null}">
@@ -223,6 +232,11 @@
                         <ScrollViewer Margin="10" Grid.Row="2" VerticalScrollBarVisibility="Visible">
                             <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].String}"/>
                         </ScrollViewer>
+
+                        <StackPanel Grid.Row="3">
+                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                        </StackPanel>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Episode" x:Name="EpisodeTabControl_Episode" DataContext="{x:Null}">
@@ -244,6 +258,11 @@
                         <ScrollViewer Margin="10" Grid.Row="2" VerticalScrollBarVisibility="Visible">
                             <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].String}"/>
                         </ScrollViewer>
+
+                        <StackPanel Grid.Row="3">
+                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                        </StackPanel>
 
                     </Grid>
                 </TabItem>

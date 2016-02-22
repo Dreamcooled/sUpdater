@@ -75,6 +75,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ValueControl.xaml.cs">
+      <DependentUpon>ValueControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\EntityType.cs" />
     <Compile Include="Utils\CachedImage.cs" />
@@ -88,6 +91,10 @@
     <Compile Include="Provider\ProviderManager.cs" />
     <Compile Include="Provider\TmdbProvider.cs" />
     <Compile Include="Utils\TreeViewExtensions.cs" />
+    <Page Include="Controls\ValueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
