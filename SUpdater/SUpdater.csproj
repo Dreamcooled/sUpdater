@@ -90,6 +90,7 @@
     <Compile Include="Model\ValueUpdateStrategy.cs" />
     <Compile Include="Provider\ProviderManager.cs" />
     <Compile Include="Provider\TmdbProvider.cs" />
+    <Compile Include="Utils\ResourceImageAttribute.cs" />
     <Compile Include="Utils\TreeViewExtensions.cs" />
     <Page Include="Controls\ValueControl.xaml">
       <SubType>Designer</SubType>
@@ -147,6 +148,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\typeDate.png" />
+    <Resource Include="Resources\Icons\typeImage.png" />
+    <Resource Include="Resources\Icons\typeInteger.png" />
+    <Resource Include="Resources\Icons\typeLink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\typeFloat.png" />
+    <Resource Include="Resources\Icons\typeLongString.png" />
+    <Resource Include="Resources\Icons\typeRating.png" />
+    <Resource Include="Resources\Icons\typeString.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,6 @@
-﻿using SUpdater.Provider;
+﻿using System.Windows.Media;
+using SUpdater.Provider;
+using SUpdater.Utils;
 
 namespace SUpdater.Model
 {
@@ -20,6 +22,9 @@ namespace SUpdater.Model
 
         public string Name{get;}
         public ValueType Type{get;}
+
+        public ImageSource TypeImage => ResourceImageAttribute.GetImageSource(Type);
+
         public bool Stored{get;}
         public bool Editable{get;}
         public ValueUpdateStrategy UpdateStrategy{get;}

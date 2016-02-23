@@ -10,22 +10,12 @@
         <ComboBox x:Name="Combo" ItemsSource="{Binding Definitions, ElementName=Control }" SelectedValue="{Binding ValuePath, ElementName=Control}" SelectedValuePath="Name" Visibility="Collapsed" >
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type model:ValueDefinition}">
-                    <TextBlock Text="{Binding Name}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding TypeImage}" Height="16" ToolTip="{Binding Type}" Margin="0,0,5,0" />
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
-            <ComboBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ComboBoxItem}">
-                    <Setter Property="Margin" Value="5"/>
-                    <Setter Property="Template" ><Setter.Value>
-                        <ControlTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Type}" Foreground="{DynamicResource DisabledMenuItemForeground}" Width="50" Margin="0,0,5,0"/>
-                                    <TextBlock Text="{Binding Name}"/>
-                                </StackPanel>
-                            </ControlTemplate>
-                    </Setter.Value></Setter>
-                </Style>
-            </ComboBox.ItemContainerStyle>
         </ComboBox>
         <Grid>
             <TextBlock Text="No value selected" Foreground="{DynamicResource DisabledMenuItemForeground}" FontStyle="Italic" x:Name="None"/>

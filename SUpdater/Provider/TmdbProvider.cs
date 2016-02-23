@@ -52,7 +52,7 @@ namespace SUpdater.Provider
             _definitions.Add(new ValueDefinition(this, "Title", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Overview", ValueType.LongString, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Poster", ValueType.Image, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
-            _definitions.Add(new ValueDefinition(this, "AirDate", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "AirDate", ValueType.Date, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Vote", ValueType.Rating, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
 
 
