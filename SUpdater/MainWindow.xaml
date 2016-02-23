@@ -11,10 +11,10 @@
         Title="MainWindow" Height="600" Width="800" >
     
     <!--<StackPanel>
-        <Label Content="{Binding [Title].String}" />
-        <Label Content="{Binding [Status].String}" />
-        <Label Content="{Binding [Poster].String}" />
-        <Image Source="{Binding [Poster].Image.ImageSource}"></Image>
+        <Label Content="{Binding [Title].StringData}" />
+        <Label Content="{Binding [Status].StringData}" />
+        <Label Content="{Binding [Poster].StringData}" />
+        <Image Source="{Binding [Poster].ImageData.ImageSource}"></Image>
     </StackPanel>-->
     
     <Grid x:Name="ShowGrid">
@@ -156,8 +156,8 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label FontSize="18" Content="{Binding [Title].String}" />
-                        <TextBlock Grid.Column="1" Text="{Binding [EpisodeCount].String, StringFormat={}{0} Episodes}" Margin="10,0" VerticalAlignment="Center"/>
+                        <Label FontSize="18" Content="{Binding [Title].StringData}" />
+                        <TextBlock Grid.Column="1" Text="{Binding [EpisodeCount].IntData, StringFormat={}{0} Episodes}" Margin="10,0" VerticalAlignment="Center"/>
                     </Grid>
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate >
@@ -170,9 +170,9 @@
                                     <ColumnDefinition Width="Auto" SharedSizeGroup="b"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="{Binding Name}" Grid.Column="0" Margin="-20,0,0,0" Foreground="{DynamicResource DisabledMenuItemForeground}" />
-                                <TextBlock Text="{Binding [Title].String}" Padding="5" Grid.Column="1" />
-                                <Label Content="{Binding [Vote].String}" Grid.Column="2" Foreground="{DynamicResource DisabledMenuItemForeground}"/>
-                                <Label Content="{Binding [AirDate].String}" Grid.Column="3"  Margin="0,0,10,0" Foreground="{DynamicResource DisabledMenuItemForeground}" />
+                                <TextBlock Text="{Binding [Title].StringData}" Padding="5" Grid.Column="1" />
+                                <Label Content="{Binding [Vote].StringData}" Grid.Column="2" Foreground="{DynamicResource DisabledMenuItemForeground}"/>
+                                <Label Content="{Binding [AirDate].StringData}" Grid.Column="3"  Margin="0,0,10,0" Foreground="{DynamicResource DisabledMenuItemForeground}" />
 
                             </Grid>
                         </DataTemplate>
@@ -201,10 +201,10 @@
                             <RowDefinition Height="*"/>
                             <!-- list-->
                         </Grid.RowDefinitions>
-                        <Image Source="{Binding [Backdrop].Image.ImageSource}" VerticalAlignment="Top" Stretch="Uniform" />
+                        <Image Source="{Binding [Backdrop].ImageData.ImageSource}" VerticalAlignment="Top" Stretch="Uniform" />
 
                         <ScrollViewer Margin="10" Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                            <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].String}"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].StringData}"/>
                         </ScrollViewer>
 
                         <StackPanel Grid.Row="2">
@@ -227,10 +227,10 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0"   FontSize="24" Text="{Binding [Title].String }" Margin="10,5" />
-                        <Image Grid.Row="1" Margin="10" Grid.Column="0" Source="{Binding [Poster].Image.ImageSource}" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform" />
+                        <TextBlock Grid.Row="0"   FontSize="24" Text="{Binding [Title].StringData }" Margin="10,5" />
+                        <Image Grid.Row="1" Margin="10" Grid.Column="0" Source="{Binding [Poster].ImageData.ImageSource}" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform" />
                         <ScrollViewer Margin="10" Grid.Row="2" VerticalScrollBarVisibility="Visible">
-                            <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].String}"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].StringData}"/>
                         </ScrollViewer>
 
                         <StackPanel Grid.Row="3">
@@ -253,10 +253,10 @@
 
                         </Grid.RowDefinitions>
 
-                        <TextBlock FontSize="24" Text="{Binding [Title].String }" TextTrimming="CharacterEllipsis" ToolTip="{Binding [Title].String }" VerticalAlignment="Center"  Margin="10,5" />
-                        <Image Grid.Row="1"  Margin="10,5" Source="{Binding [Poster].Image.ImageSource}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Uniform"  />
+                        <TextBlock FontSize="24" Text="{Binding [Title].StringData }" TextTrimming="CharacterEllipsis" ToolTip="{Binding [Title].StringData }" VerticalAlignment="Center"  Margin="10,5" />
+                        <Image Grid.Row="1"  Margin="10,5" Source="{Binding [Poster].ImageData.ImageSource}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Uniform"  />
                         <ScrollViewer Margin="10" Grid.Row="2" VerticalScrollBarVisibility="Visible">
-                            <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].String}"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding [Overview].StringData}"/>
                         </ScrollViewer>
 
                         <StackPanel Grid.Row="3">

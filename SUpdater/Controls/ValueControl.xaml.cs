@@ -63,6 +63,7 @@ namespace SUpdater.Controls
 
             that.Combo.Visibility = Visibility.Collapsed;
             that.Text.Visibility = Visibility.Collapsed;
+            that.LongText.Visibility = Visibility.Collapsed;
             that.Image.Visibility = Visibility.Collapsed;
             that.None.Visibility = Visibility.Collapsed;
 
@@ -83,10 +84,14 @@ namespace SUpdater.Controls
                     {
                         case ValueType.Image:
                             Binding b = new Binding();
-                            b.Source = that.Value;
-                            b.Path = new PropertyPath("Image.ImageSource");
+                            b.Source = that;
+                            b.Path = new PropertyPath("Value.ImageData.ImageSource");
                             BindingOperations.SetBinding(that.Image, Image.SourceProperty, b);
                             that.Image.Visibility = Visibility.Visible;
+                            break;
+                        case ValueType.LongString:
+                            BindingOperations.ClearBinding(that.Image, Image.SourceProperty);
+                            that.LongText.Visibility = Visibility.Visible;
                             break;
                         default:
                             BindingOperations.ClearBinding(that.Image, Image.SourceProperty);

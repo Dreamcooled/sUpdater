@@ -44,7 +44,7 @@ namespace SUpdater
 
             Console.WriteLine("Cover String:" + show1["Cover"].String);
             Console.WriteLine("Cover Loaded: " + show1["Cover"].Loaded);
-            var x = show1["Cover"].String;*/
+            var x = show1["Cover"].StringData;*/
         }
 
         private void _selectedEpisodeTreeItems_CollectionChanged(object sender)

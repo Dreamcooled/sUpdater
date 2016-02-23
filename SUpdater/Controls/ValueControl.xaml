@@ -29,7 +29,10 @@
         </ComboBox>
         <Grid>
             <TextBlock Text="No value selected" Foreground="{DynamicResource DisabledMenuItemForeground}" FontStyle="Italic" x:Name="None"/>
-            <TextBlock Text="{Binding ElementName=Control, Path=Value.String}" x:Name="Text" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding ElementName=Control, Path=Value.StringData}" x:Name="Text" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <ScrollViewer  VerticalScrollBarVisibility="Visible" x:Name="LongText" Visibility="Collapsed">
+                <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=Control, Path=Value.StringData}"/>
+            </ScrollViewer>
             <Image x:Name="Image" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
         </Grid>
     </Grid>

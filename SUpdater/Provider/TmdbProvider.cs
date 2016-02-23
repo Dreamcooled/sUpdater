@@ -37,23 +37,23 @@ namespace SUpdater.Provider
             _definitions.Add(new ValueDefinition(this, "Id", ValueType.Integer,EntityType.Show, ValueFetchStrategy.OnEntityCreate, ValueUpdateStrategy.Never ));  
             _definitions.Add(new ValueDefinition(this, "Title",ValueType.String, EntityType.Show, ValueFetchStrategy.OnEntityCreate, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Status", ValueType.String, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
-            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.String, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.LongString, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Poster", ValueType.Image, EntityType.Show, ValueFetchStrategy.OnValueFetch, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Backdrop", ValueType.Image, EntityType.Show, ValueFetchStrategy.OnValueFetch, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "ProviderHomepage", ValueType.Link, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "PublisherHomepage", ValueType.Link, EntityType.Show, ValueFetchStrategy.OnValueCreate, ValueUpdateStrategy.Never));
 
             _definitions.Add(new ValueDefinition(this, "Title", ValueType.String, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
-            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.String, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.LongString, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "EpisodeCount", ValueType.Integer, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Poster", ValueType.Image, EntityType.Season, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
 
        
             _definitions.Add(new ValueDefinition(this, "Title", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
-            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "Overview", ValueType.LongString, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "Poster", ValueType.Image, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
             _definitions.Add(new ValueDefinition(this, "AirDate", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
-            _definitions.Add(new ValueDefinition(this, "Vote", ValueType.String, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
+            _definitions.Add(new ValueDefinition(this, "Vote", ValueType.Rating, EntityType.Episode, ValueFetchStrategy.Never, ValueUpdateStrategy.Never));
 
 
 
@@ -140,7 +140,7 @@ namespace SUpdater.Provider
 
                             Task.Run(delegate
                             {
-                                int id2 = int.Parse(value.Entity.Values["Id"].String);
+                                int id2 = value.Entity.Values["Id"].IntData;
                                 var showinfo = client.GetTvShow(id2, TvShowMethods.Images);
                                 titleVal.SetValue(showinfo.OriginalName);
                                 statusVal.SetValue(showinfo.Status);
@@ -175,7 +175,7 @@ namespace SUpdater.Provider
                 case EntityType.Show:
                     Task.Run(delegate
                     {
-                        int id2 = int.Parse(parent.Values["Id"].String);
+                        int id2 =parent.Values["Id"].IntData;
                         var showinfo = client.GetTvShow(id2);
                         foreach (var tvSeason in showinfo.Seasons)
                         {
@@ -206,7 +206,7 @@ namespace SUpdater.Provider
                 case EntityType.Season:
                     Task.Run(delegate
                     {
-                        int showId = int.Parse(parent.Parent.Values["Id"].String);
+                        int showId = parent.Parent.Values["Id"].IntData;
                         int seasonNr = int.Parse(parent.Name);
 
                         var seasonInfo = client.GetTvSeason(showId, seasonNr,TvSeasonMethods.Images);

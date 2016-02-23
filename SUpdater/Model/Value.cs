@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using SUpdater.Utils;
 
 namespace SUpdater.Model
@@ -21,11 +22,11 @@ namespace SUpdater.Model
 
         public ValueDefinition Definition { get; internal set; }
 
-        private String _data;
+        private String _stringData;
         private bool _requested;
         private bool _loaded;
 
-        public String String
+        public String StringData
         {
             get
             {
@@ -46,35 +47,71 @@ namespace SUpdater.Model
                         Definition.Provider.RequestValue(this);
                     }
                 }
-                return _data;
+                return _stringData;
             }
             internal set
             {
-                _data = value;
+                _stringData = value;
                 Loaded = true;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(Image));
+                if (Definition.Type == ValueType.Image)
+                {
+                    OnPropertyChanged(nameof(Value.ImageData));
+                } else if (Definition.Type == ValueType.Integer)
+                {
+                    OnPropertyChanged(nameof(Value.IntData));
+                }
             }
         }
 
-        private CachedImage _image;
-        public CachedImage Image
+        private CachedImage _imageData;
+        public CachedImage ImageData
         {
             get
             {
-                if (_image != null)
+                if (Definition.Type != ValueType.Image)
                 {
-                    return _image;
+                    throw new InvalidOperationException();
                 }
-                string d = String;
+                if (_imageData != null)
+                {
+                    return _imageData;
+                }
+                string d = StringData;
                 if (string.IsNullOrEmpty(d))
                 {
                     return null;
                 }
-                _image = new CachedImage(d);
-                return _image;
+                _imageData = new CachedImage(d);
+                return _imageData;
             }
         }
+
+        private int? _intData;
+
+        public int IntData
+        {
+            get
+            {
+                if (Definition.Type != ValueType.Integer)
+                {
+                    throw new InvalidOperationException();
+                }
+                if (_intData.HasValue)
+                {
+                    return _intData.Value;
+                }
+                if (_stringData == null) return 0;
+                int parsedInt;
+                if (int.TryParse(_stringData, out parsedInt))
+                {
+                    _intData = parsedInt;
+                    return _intData.Value;
+                }
+                throw new InvalidOperationException();
+            }
+        }
+
 
         public bool Loaded
         {
@@ -101,7 +138,7 @@ namespace SUpdater.Model
         public bool SetValue(String data)
         {
             //TODO: check thread
-            String = data;
+            StringData = data;
             return true;
         }
     }
