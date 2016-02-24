@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using SUpdater.Model;
 using SUpdater.Provider;
 using ValueType = SUpdater.Model.ValueType;
@@ -53,7 +45,13 @@ namespace SUpdater.Controls
         {
             var valueControl = dependencyObject as ValueControl;
             if (valueControl != null)
-                valueControl.Combo.Visibility = (bool)dependencyPropertyChangedEventArgs.NewValue ? Visibility.Visible : Visibility.Collapsed;
+            {
+                valueControl.Combo.Visibility = (bool) dependencyPropertyChangedEventArgs.NewValue
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+                valueControl.SetValue(ContextMenuService.IsEnabledProperty,
+                    (bool) dependencyPropertyChangedEventArgs.NewValue);
+            }
         }
 
         private static object EditModeChanging(DependencyObject dependencyObject, object baseValue)
@@ -232,5 +230,26 @@ namespace SUpdater.Controls
             set { SetValue(EntityTypeProperty, value); }
         }
 
+        private void RemoveClicked(object sender, RoutedEventArgs e)
+        {
+            var parent = VisualTreeHelper.GetParent(this);
+            var panel = parent as Panel;
+            if (panel != null)
+            {
+                panel.Children.Remove(this);
+            }
+            else
+            {
+                var element = parent as ContentControl;
+                if (element != null)
+                {
+                    element.Content = null;
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace SUpdater.Provider
         private const string API_KEY = "32b427eaba430fb1c86e9d15049e7799";
   
 
-        private readonly List<ValueDefinition> _definitions = new List<ValueDefinition>(); 
+        private readonly List<ValueDefinition> _definitions = new List<ValueDefinition>();
         public TmdbProvider()
         {
 
@@ -64,9 +64,21 @@ namespace SUpdater.Provider
         public string Name => "TMDB";
         public List<ValueDefinition> Values => _definitions;
 
+        private static int requestCount = 0;
+        private static int RequestCount
+        {
+            get { return requestCount; }
+            set
+            {
+                requestCount = value;
+                Console.WriteLine("TMDB Request Nr. "+requestCount);
+            }
+        }
+
 
         public int? FindShow(String name)
         {
+            RequestCount++;
             if (client?.Config == null) return null;
             Regex r = new Regex(@"\(([12]\d{3})\)"); //name contains year?
             Match m = r.Match(name);
@@ -142,6 +154,7 @@ namespace SUpdater.Provider
                             {
                                 int id2 = value.Entity.Values["Id"].IntData;
                                 var showinfo = client.GetTvShow(id2, TvShowMethods.Images);
+                                RequestCount++;
                                 titleVal.SetValue(showinfo.OriginalName);
                                 statusVal.SetValue(showinfo.Status);
                                 overviewVal.SetValue(showinfo.Overview);
@@ -177,6 +190,7 @@ namespace SUpdater.Provider
                     {
                         int id2 =parent.Values["Id"].IntData;
                         var showinfo = client.GetTvShow(id2);
+                        RequestCount++;
                         foreach (var tvSeason in showinfo.Seasons)
                         {
                             bool created;
@@ -210,6 +224,7 @@ namespace SUpdater.Provider
                         int seasonNr = int.Parse(parent.Name);
 
                         var seasonInfo = client.GetTvSeason(showId, seasonNr,TvSeasonMethods.Images);
+                        RequestCount++;
 
                         var sOverviewVal = getVal("Overview", parent);
                         sOverviewVal.SetValue(seasonInfo.Overview);

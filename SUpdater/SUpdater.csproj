@@ -78,6 +78,9 @@
     <Compile Include="Controls\ValueControl.xaml.cs">
       <DependentUpon>ValueControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ValueControlAdder.xaml.cs">
+      <DependentUpon>ValueControlAdder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\EntityType.cs" />
     <Compile Include="Utils\CachedImage.cs" />
@@ -93,6 +96,10 @@
     <Compile Include="Utils\ResourceImageAttribute.cs" />
     <Compile Include="Utils\TreeViewExtensions.cs" />
     <Page Include="Controls\ValueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ValueControlAdder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

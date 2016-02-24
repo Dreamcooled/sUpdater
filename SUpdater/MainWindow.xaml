@@ -209,7 +209,7 @@
 
                         <StackPanel Grid.Row="2">
                             <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
-                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                            <controls1:ValueControlAdder Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
                         </StackPanel>
 
                     </Grid>
@@ -235,7 +235,7 @@
 
                         <StackPanel Grid.Row="3">
                             <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
-                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                            <controls1:ValueControlAdder Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -261,7 +261,7 @@
 
                         <StackPanel Grid.Row="3">
                             <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
-                            <controls1:ValueControl Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
+                            <controls1:ValueControlAdder Entity="{Binding .}" HorizontalAlignment="Left" Margin="10,2" />
                         </StackPanel>
 
                     </Grid>

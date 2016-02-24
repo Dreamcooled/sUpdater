@@ -5,7 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:model="clr-namespace:SUpdater.Model"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="100" x:Name="Control">
+             d:DesignHeight="50" d:DesignWidth="100" x:Name="Control" ContextMenuService.IsEnabled="False">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Remove" Click="RemoveClicked"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
     <Grid>
         <ComboBox x:Name="Combo" ItemsSource="{Binding Definitions, ElementName=Control }" SelectedValue="{Binding ValuePath, ElementName=Control}" SelectedValuePath="Name" Visibility="Collapsed" >
             <ComboBox.ItemTemplate>

@@ -39,7 +39,7 @@ namespace SUpdater.Model
                         Requested = true;
                     }
                  
-                } else if (Loaded)
+                } else if (Loaded && !Requested)
                 {
                     if (Definition.UpdateStrategy == ValueUpdateStrategy.OnValueFetch)
                     {
